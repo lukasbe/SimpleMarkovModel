@@ -30,14 +30,16 @@
 		}
 	},
 	print: {|self|
+		self.calcProbabilities;
 		(self.name + ":").postln;
 		"".postln;
 		self.followingChords.postln;
 		self.probabilities.postln;
+		"".postln;
 	}
 );
 
-~chordList = ["Em", "Am", "Am", "Am", "Em", "Em", "D"];
+~chordList = ["Cm","D#","F","D#","Gm","Bb","A#sus5","A7sus4","Gm","Bb","A#sus5","A7sus4","Gm","Bb","A#sus5","A7sus4","Cm","D#","F","D#","Gm","Bb","A#sus5","A7sus4","Gm","Bb","A#sus5","A7sus4","Cm","D#","F","D#","Gm","Bb","A#sus5","A7sus4","Gm","Bb","A#sus5","A7sus4","Gm","Dm*","E","Gm","Gm","Dm*","E","Gm","Dm*","E","Gm","Gm","Dm*","E","Am","G#","C","D","Am","G#","C", "D"];
 ~chords = Array.new;
 for(0, (~chordList.size - 1), {|i|
 	var o = -1;
