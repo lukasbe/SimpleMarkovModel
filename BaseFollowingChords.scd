@@ -82,7 +82,7 @@ for(0, (~chordList.size - 1), {|i|
 //};
 
 //init with first entry
-~test = ~chords.find("Cm");
+~test = ~chords.find(~chordList.at(0));
 ~test.name.postln;
 (0..40).do{
 	var names = Array.new;
