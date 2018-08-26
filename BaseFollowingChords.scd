@@ -40,15 +40,25 @@
 );
 
 ~chordList = ["Cm","D#","F","D#","Gm","Bb","A#sus5","A7sus4","Gm","Bb","A#sus5","A7sus4","Gm","Bb","A#sus5","A7sus4","Cm","D#","F","D#","Gm","Bb","A#sus5","A7sus4","Gm","Bb","A#sus5","A7sus4","Cm","D#","F","D#","Gm","Bb","A#sus5","A7sus4","Gm","Bb","A#sus5","A7sus4","Gm","Dm*","E","Gm","Gm","Dm*","E","Gm","Dm*","E","Gm","Gm","Dm*","E","Am","G#","C","D","Am","G#","C", "D"];
-~chords = Array.new;
+
+~chords = (
+	list: Array.new,
+	find:{|self, entry|
+		var index = -1;
+		self.list.do{|n, i|
+			if(entry == n.name){index = i;};
+		};
+		self.list.at(index);
+	}
+);
 for(0, (~chordList.size - 1), {|i|
 	var o = -1;
-	~chords.do{|n, j|
+	~chords.list.do{|n, j|
 		if(n.name == ~chordList.at(i)){o = j;}
 	};
 	if(o != -1){
 		if(~chordList.at(i+1).isNil == false){
-			~chords.at(o).addFollowingChord(~chordList.at(i+1));
+			~chords.list.at(o).addFollowingChord(~chordList.at(i+1));
 		}
 	}
 	{
@@ -57,13 +67,15 @@ for(0, (~chordList.size - 1), {|i|
 		if(~chordList.at(i+1).isNil == false){
 			tmp.addFollowingChord(~chordList.at(i+1));
 		};
-		~chords = ~chords.add(tmp);
+		~chords.list = ~chords.list.add(tmp);
 	}
 });
 
-~chords.do{|n,i|
+~chords.list.do{|n,i|
 	n.print;
 };
+
+~chords.find("Gm");
 
 )
 
