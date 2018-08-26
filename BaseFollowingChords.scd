@@ -57,14 +57,18 @@ for(0, (~chordList.size - 1), {|i|
 		if(n.name == ~chordList.at(i)){o = j;}
 	};
 	if(o != -1){
+		//update if chord already exists in list.
 		if(~chordList.at(i+1).isNil == false){
+			//check for last chord and avoid index overflow
 			~chords.list.at(o).addFollowingChord(~chordList.at(i+1));
 		}
 	}
 	{
+		//add to list if chord doesn't exist
 		var tmp = ~chordBaseTemplate.deepCopy;
 		tmp.name = ~chordList.at(i);
 		if(~chordList.at(i+1).isNil == false){
+			//check for last chord and avoid index overflow
 			tmp.addFollowingChord(~chordList.at(i+1));
 		};
 		~chords.list = ~chords.list.add(tmp);
@@ -76,6 +80,8 @@ for(0, (~chordList.size - 1), {|i|
 //~chords.list.do{|n,i|
 //	n.print;
 //};
+
+//init with first entry
 ~test = ~chords.find("Cm");
 ~test.name.postln;
 (0..40).do{
