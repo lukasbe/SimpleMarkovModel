@@ -47,7 +47,9 @@ for(0, (~chordList.size - 1), {|i|
 		if(n.name == ~chordList.at(i)){o = j;}
 	};
 	if(o != -1){
-		~chords.at(o).addFollowingChord(~chordList.at(i+1));
+		if(~chordList.at(i+1).isNil == false){
+			~chords.at(o).addFollowingChord(~chordList.at(i+1));
+		}
 	}
 	{
 		var tmp = ~chordBaseTemplate.deepCopy;
