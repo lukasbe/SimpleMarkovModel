@@ -21,7 +21,8 @@
 		{
 			var occ = self.followingChords.at(containsIndex).value;
 			self.followingChords.put(containsIndex, entry -> (occ+1));
-		}
+		};
+		self.calcProbabilities;
 	},
 	calcProbabilities:{|self|
 		self.probabilities = Array.newClear(self.followingChords.size);
@@ -30,8 +31,7 @@
 		}
 	},
 	print: {|self|
-		self.calcProbabilities;
-		(self.name + ":").postln;
+				(self.name + ":").postln;
 		"".postln;
 		self.followingChords.postln;
 		self.probabilities.postln;
