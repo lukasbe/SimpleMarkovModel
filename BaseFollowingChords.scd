@@ -71,11 +71,24 @@ for(0, (~chordList.size - 1), {|i|
 	}
 });
 
-~chords.list.do{|n,i|
-	n.print;
-};
 
-~chords.find("Gm");
+
+//~chords.list.do{|n,i|
+//	n.print;
+//};
+~test = ~chords.find("Cm");
+~test.name.postln;
+(0..40).do{
+	var names = Array.new;
+	var probabilities = Array.new;
+	~test.probabilities.do{|n, i|
+		names = names.add(n.key);
+		probabilities = probabilities.add(n.value);
+	};
+	c = names.wchoose(probabilities);
+	c.postln;
+	~test = ~chords.find(c);
+}
 
 )
 
