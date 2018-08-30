@@ -54,6 +54,80 @@
 *   End Chord Input
 ***********************************/
 
+
+/***********************************
+*   Start Chord Midi Mapping
+***********************************/
+
+~midiMapping = (
+	name: "",
+	bassNote: 0,
+	otherNotes: Array.new
+);
+
+~midiMappings = (
+	entries: Array.new,
+	getBassnoteList: {|self|
+		var bnl = Array.new;
+		self.entries.do{|n,i|
+			//add twice so that the note is picked twice.
+			bnl = bnl.add(n.bassNote);
+			bnl = bnl.add(n.bassNote);
+		};
+		bnl;
+	}
+);
+
+~cm = ~midiMapping.deepCopy;
+~cm.name = "Cm";
+~cm.bassNote = 24;
+~cm.otherNotes = ~cm.otherNotes.add(60);
+~cm.otherNotes = ~cm.otherNotes.add(63);
+~cm.otherNotes = ~cm.otherNotes.add(67);
+~midiMappings.entries = ~midiMappings.entries.add(~cm);
+
+
+~dsharp = ~midiMapping.deepCopy;
+~dsharp.name = "D#";
+~dsharp.bassNote = 27;
+~dsharp.otherNotes = ~dsharp.otherNotes.add(63);
+~dsharp.otherNotes = ~dsharp.otherNotes.add(67);
+~dsharp.otherNotes = ~dsharp.otherNotes.add(70);
+~midiMappings.entries = ~midiMappings.entries.add(~dsharp);
+
+~f = ~midiMapping.deepCopy;
+~f.name = "F";
+~f.bassNote = 29;
+~f.otherNotes = ~f.otherNotes.add(60);
+~f.otherNotes = ~f.otherNotes.add(65);
+~f.otherNotes = ~f.otherNotes.add(69);
+~midiMappings.entries = ~midiMappings.entries.add(~f);
+
+~gm = ~midiMapping.deepCopy;
+~gm.name = "Gm";
+~gm.bassNote = 31;
+~gm.otherNotes = ~gm.otherNotes.add(61);
+~gm.otherNotes = ~gm.otherNotes.add(67);
+~gm.otherNotes = ~gm.otherNotes.add(71);
+~midiMappings.entries = ~midiMappings.entries.add(~gm);
+
+//TODO: Dm*
+
+~e = ~midiMapping.deepCopy;
+~e.name = "E";
+~e.bassNote = 28;
+~e.otherNotes = ~e.otherNotes.add(64);
+~e.otherNotes = ~e.otherNotes.add(68);
+~e.otherNotes = ~e.otherNotes.add(71);
+~midiMappings.entries = ~midiMappings.entries.add(~e);
+
+
+/***********************************
+*   End Chord Midi Mapping
+***********************************/
+
+
+
 ~chords = (
 	list: Array.new,
 	find:{|self, entry|
@@ -221,33 +295,19 @@ Pbind(
 
 Pbind(
     \instrument, \bass,
-	\midinote, Pseq([24, 24, 26, 26, 29, 29, 26, 26], inf),
+	\midinote, Pseq(~midiMappings.getBassnoteList, inf),
     \dur, 2,
     \legato, Pseq([0.9, 0.9], inf),
     \amp, 0.3, \detune, 1.005
 ).play;
-
+/*
 Pbind(
     \instrument, \bass,
-	\midinote, Pshuf([60, 63, 65, 67, 70], inf),
+	\midinote, Pseq([60], inf),
     \dur, 2,
     \amp, 0.3
 ).play;
-
-Pbind(
-    \instrument, \bass,
-	\midinote, Prand([60, 63, 65, 67, 70]+12, inf),
-    \dur, 2,
-    \amp, 0.6
-).play;
-
-Pbind(
-    \instrument, \bass,
-	\midinote, Prand([60, 63, 65, 67, 70]-12, inf),
-    \dur, 2,
-    \amp, 0.3
-).play;
-
+*/
 )
 
 /*******************************************************************************************
