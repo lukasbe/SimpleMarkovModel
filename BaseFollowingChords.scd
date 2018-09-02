@@ -15,7 +15,7 @@
 		//iterate over array to see if entry is already there
 		//save index if so
 		self.followingChords.do{|item, index|
-			if(item.key == entry) {containsIndex = index};
+			if(item.key == entry)^< {containsIndex = index};
 		};
 		//if not there add new Entry with occurrence of 1
 		if(containsIndex == -1)
@@ -48,7 +48,7 @@
 *   Start Chord Input
 ***********************************/
 
-~chordList = ["Cm","D#","F","D#","Gm","Bb","A#sus5","A7sus4","Gm","Bb","A#sus5","A7sus4","Gm","Bb","A#sus5","A7sus4","Cm","D#","F","D#","Gm","Bb","A#sus5","A7sus4","Gm","Bb","A#sus5","A7sus4","Cm","D#","F","D#","Gm","Bb","A#sus5","A7sus4","Gm","Bb","A#sus5","A7sus4","Gm","Dm*","E","Gm","Gm","Dm*","E","Gm","Dm*","E","Gm","Gm","Dm*","E","Am","G#","C","D","Am","G#","C", "D"];
+~chordList = ["Cm","D#","F","D#","Gm","Bb","A#sus4","A7sus4","Gm","Bb","A#sus4","A7sus4","Gm","Bb","A#sus4","A7sus4","Cm","D#","F","D#","Gm","Bb","A#sus4","A7sus4","Gm","Bb","A#sus4","A7sus4","Cm","D#","F","D#","Gm","Bb","A#sus4","A7sus4","Gm","Bb","A#sus4","A7sus4","Gm","Dm*","E","Gm","Gm","Dm*","E","Gm","Dm*","E","Gm","Gm","Dm*","E","Am","G#","C","D","Am","G#","C", "D"];
 
 /***********************************
 *   End Chord Input
@@ -111,7 +111,13 @@
 ~gm.otherNotes = ~gm.otherNotes.add(71);
 ~midiMappings.entries = ~midiMappings.entries.add(~gm);
 
-//TODO: Dm*
+~dmstar = ~midiMapping.deepCopy;
+~dmstar.name = "Dm*";
+~dmstar.bassNote = 26;
+~dmstar.otherNotes = ~dmstar.otherNotes.add(64);
+~dmstar.otherNotes = ~dmstar.otherNotes.add(65);
+~dmstar.otherNotes = ~dmstar.otherNotes.add(69);
+~midiMappings.entries = ~midiMappings.entries.add(~dmstar);
 
 ~e = ~midiMapping.deepCopy;
 ~e.name = "E";
@@ -120,6 +126,31 @@
 ~e.otherNotes = ~e.otherNotes.add(68);
 ~e.otherNotes = ~e.otherNotes.add(71);
 ~midiMappings.entries = ~midiMappings.entries.add(~e);
+
+~bb = ~midiMapping.deepCopy;
+~bb.name = "Bb";
+~bb.bassNote = 34;
+~bb.otherNotes = ~bb.otherNotes.add(58);
+~bb.otherNotes = ~bb.otherNotes.add(62);
+~bb.otherNotes = ~bb.otherNotes.add(65);
+~midiMappings.entries = ~midiMappings.entries.add(~bb);
+
+~asharpsus4 = ~midiMapping.deepCopy;
+~asharpsus4.name = "A#sus4";
+~asharpsus4.bassNote = 34;
+~asharpsus4.otherNotes = ~asharpsus4.otherNotes.add(50);
+~asharpsus4.otherNotes = ~asharpsus4.otherNotes.add(52);
+~asharpsus4.otherNotes = ~asharpsus4.otherNotes.add(58);
+~midiMappings.entries = ~midiMappings.entries.add(~asharpsus4);
+
+~a7sus4 = ~midiMapping.deepCopy;
+~a7sus4.name = "A7sus4";
+~a7sus4.bassNote = 31;
+~a7sus4.otherNotes = ~a7sus4.otherNotes.add(57);
+~a7sus4.otherNotes = ~a7sus4.otherNotes.add(62);
+~a7sus4.otherNotes = ~a7sus4.otherNotes.add(64);
+~midiMappings.entries = ~midiMappings.entries.add(~a7sus4);
+
 
 
 /***********************************
