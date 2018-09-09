@@ -197,11 +197,12 @@
 ~gsharp.otherNotes = ~gsharp.otherNotes.add(63);
 ~midiMappings.entries = ~midiMappings.entries.add(~gsharp);
 
+
 /***********************************
-*   TEST
+*   End Chord Midi Mapping
 ***********************************/
 
-~midiMappings.findEntry("E").values[1].postln;
+
 ~ch = ~midiMappings.getChords(~chordList);
 ~bassNotes = Array.new();
 ~highNotes1 = Array.new();
@@ -215,16 +216,6 @@
 	~highNotes2 = ~highNotes2.add(bn.otherNotes.at(1));
 	~highNotes3 = ~highNotes3.add(bn.otherNotes.at(2));
 };
-
-/***********************************
-*   End TEST
-***********************************/
-
-
-/***********************************
-*   End Chord Midi Mapping
-***********************************/
-
 
 
 ~chords = (
@@ -424,8 +415,8 @@ Pbind(
 
 Pbind(
     \instrument, \default,
-	\midinote, Pseq(~bbMajPent, 9),
-    \dur, 2,
+	\midinote, Pseq(~bbMajPent.scramble, 7),
+    \dur, 1,
     \amp, 0.6
 ).play;
 
