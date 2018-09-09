@@ -15,7 +15,7 @@
 		//iterate over array to see if entry is already there
 		//save index if so
 		self.followingChords.do{|item, index|
-			if(item.key == entry)^< {containsIndex = index};
+			if(item.key == entry) {containsIndex = index};
 		};
 		//if not there add new Entry with occurrence of 1
 		if(containsIndex == -1)
@@ -60,14 +60,15 @@
 ***********************************/
 
 ~midiMapping = (
-	name: "",
-	bassNote: 0,
-	otherNotes: Array.new
+	\name: "",
+	\bassNote: 0,
+	\otherNotes: Array.new,
+
 );
 
 ~midiMappings = (
 	entries: Array.new,
-	getBassnoteList: {|self|
+	getAvailableBassnotes: {|self|
 		var bnl = Array.new;
 		self.entries.do{|n,i|
 			//add twice so that the note is picked twice.
@@ -75,6 +76,13 @@
 			bnl = bnl.add(n.bassNote);
 		};
 		bnl;
+	},
+	findEntry: {|self, chord|
+		var occurrences = -1;
+		self.entries.do{|n,i|
+			if(n.name == chord) {occurrences = i};
+		};
+		self.entries.at(occurrences);
 	}
 );
 
@@ -150,6 +158,28 @@
 ~a7sus4.otherNotes = ~a7sus4.otherNotes.add(62);
 ~a7sus4.otherNotes = ~a7sus4.otherNotes.add(64);
 ~midiMappings.entries = ~midiMappings.entries.add(~a7sus4);
+
+/***********************************
+*   TEST
+***********************************/
+
+~midiMappings.findEntry("E").values[1].postln;
+~ch = ~midiMappings.getChords(~chordList);
+~bassNotes = Array.new;
+
+~chordList.do{|n,i|
+	n.postln;
+	~bassNotes = ~bassNotes.add(~midiMappings.findEntry(n));
+};
+
+~bassNotes.do{|n,i|
+	n.getPairs;
+};
+
+/***********************************
+*   End TEST
+***********************************/
+
 
 
 
@@ -326,11 +356,12 @@ Pbind(
 
 Pbind(
     \instrument, \bass,
-	\midinote, Pseq(~midiMappings.getBassnoteList, inf),
+	\midinote, Pseq(~midiMappings.getAvailableBassnotes, inf),
     \dur, 2,
     \legato, Pseq([0.9, 0.9], inf),
     \amp, 0.3, \detune, 1.005
 ).play;
+
 /*
 Pbind(
     \instrument, \bass,
