@@ -50,6 +50,8 @@
 
 ~chordList = ["Cm","D#","F","D#","Gm","Bb","A#sus4","A7sus4","Gm","Bb","A#sus4","A7sus4","Gm","Bb","A#sus4","A7sus4","Cm","D#","F","D#","Gm","Bb","A#sus4","A7sus4","Gm","Bb","A#sus4","A7sus4","Cm","D#","F","D#","Gm","Bb","A#sus4","A7sus4","Gm","Bb","A#sus4","A7sus4","Gm","Dm*","E","Gm","Gm","Dm*","E","Gm","Dm*","E","Gm","Gm","Dm*","E","Am","G#","C","D","Am","G#","C", "D"];
 
+~bbMajPent = [66, 70, 72, 74, 77, 79].scramble;
+
 /***********************************
 *   End Chord Input
 ***********************************/
@@ -159,28 +161,64 @@
 ~a7sus4.otherNotes = ~a7sus4.otherNotes.add(64);
 ~midiMappings.entries = ~midiMappings.entries.add(~a7sus4);
 
+
+~am = ~midiMapping.deepCopy;
+~am.name = "Am";
+~am.bassNote = 33;
+~am.otherNotes = ~a7sus4.otherNotes.add(57);
+~am.otherNotes = ~a7sus4.otherNotes.add(60);
+~am.otherNotes = ~a7sus4.otherNotes.add(64);
+~midiMappings.entries = ~midiMappings.entries.add(~am);
+
+
+~c = ~midiMapping.deepCopy;
+~c.name = "C";
+~c.bassNote = 24;
+~c.otherNotes = ~c.otherNotes.add(55);
+~c.otherNotes = ~c.otherNotes.add(60);
+~c.otherNotes = ~c.otherNotes.add(64);
+~midiMappings.entries = ~midiMappings.entries.add(~c);
+
+
+~d = ~midiMapping.deepCopy;
+~d.name = "D";
+~d.bassNote = 26;
+~d.otherNotes = ~d.otherNotes.add(59);
+~d.otherNotes = ~d.otherNotes.add(62);
+~d.otherNotes = ~d.otherNotes.add(66);
+~midiMappings.entries = ~midiMappings.entries.add(~d);
+
+
+~gsharp = ~midiMapping.deepCopy;
+~gsharp.name = "G#";
+~gsharp.bassNote = 32;
+~gsharp.otherNotes = ~gsharp.otherNotes.add(56);
+~gsharp.otherNotes = ~gsharp.otherNotes.add(60);
+~gsharp.otherNotes = ~gsharp.otherNotes.add(63);
+~midiMappings.entries = ~midiMappings.entries.add(~gsharp);
+
 /***********************************
 *   TEST
 ***********************************/
 
 ~midiMappings.findEntry("E").values[1].postln;
 ~ch = ~midiMappings.getChords(~chordList);
-~bassNotes = Array.new;
+~bassNotes = Array.new();
+~highNotes1 = Array.new();
+~highNotes2 = Array.new();
+~highNotes3 = Array.new();
 
 ~chordList.do{|n,i|
-	n.postln;
-	~bassNotes = ~bassNotes.add(~midiMappings.findEntry(n));
-};
-
-~bassNotes.do{|n,i|
-	n.getPairs;
+	var bn = ~midiMappings.findEntry(n);
+	~bassNotes = ~bassNotes.add(bn.bassNote);
+	~highNotes1 = ~highNotes1.add(bn.otherNotes.at(0));
+	~highNotes2 = ~highNotes2.add(bn.otherNotes.at(1));
+	~highNotes3 = ~highNotes3.add(bn.otherNotes.at(2));
 };
 
 /***********************************
 *   End TEST
 ***********************************/
-
-
 
 
 /***********************************
@@ -325,7 +363,7 @@ SynthDef(\bass, { |freq = 440, gate = 1, amp = 0.5, slideTime = 0.17, ffreq = 11
 (
 Pbind(
 	\instrument, \hihat,
-	\dur, 1,
+	\dur, Pseq([1], 40),
 	\att, 0.01,
 	\rel, 0.1,
 	\ffreq, 11000,
@@ -335,7 +373,7 @@ Pbind(
 
 Pbind(
 	\instrument, \kick,
-	\dur, 4,
+	\dur, Pseq([1, 2], 20),
 	\att, 0.01,
 	\rel, 0.22,
 	\sinfreq, 60,
@@ -345,7 +383,7 @@ Pbind(
 
 Pbind(
 	\instrument, \snare,
-	\dur, Pseq([Rest(2), 2], inf),
+	\dur, Pseq([Rest(2), 2, 3], 14),
 	\att, 0.01,
 	\rel, 0.1,
 	\sinfreq, 180,
@@ -356,20 +394,41 @@ Pbind(
 
 Pbind(
     \instrument, \bass,
-	\midinote, Pseq(~midiMappings.getAvailableBassnotes, inf),
+	\midinote, Pseq(~bassNotes, 1),
     \dur, 2,
-    \legato, Pseq([0.9, 0.9], inf),
+    \legato, Pseq([0.9, 0.9], 20),
     \amp, 0.3, \detune, 1.005
 ).play;
 
-/*
+
 Pbind(
     \instrument, \bass,
-	\midinote, Pseq([60], inf),
+	\midinote, Pseq(~highNotes1, 1),
     \dur, 2,
     \amp, 0.3
 ).play;
-*/
+
+Pbind(
+    \instrument, \bass,
+	\midinote, Pseq(~highNotes2, 1),
+    \dur, 2,
+    \amp, 0.3
+).play;
+
+Pbind(
+    \instrument, \bass,
+	\midinote, Pseq(~highNotes3, 1),
+    \dur, 2,
+    \amp, 0.3
+).play;
+
+Pbind(
+    \instrument, \default,
+	\midinote, Pseq(~bbMajPent, 9),
+    \dur, 2,
+    \amp, 0.6
+).play;
+
 )
 
 /*******************************************************************************************
