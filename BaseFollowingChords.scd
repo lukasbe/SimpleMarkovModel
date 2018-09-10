@@ -52,12 +52,11 @@ s.boot;
 
 ~chordList = ["Cm","D#","F","D#","Gm","Bb","A#sus4","A7sus4","Gm","Bb","A#sus4","A7sus4","Gm","Bb","A#sus4","A7sus4","Cm","D#","F","D#","Gm","Bb","A#sus4","A7sus4","Gm","Bb","A#sus4","A7sus4","Cm","D#","F","D#","Gm","Bb","A#sus4","A7sus4","Gm","Bb","A#sus4","A7sus4","Gm","Dm*","E","Gm","Gm","Dm*","E","Gm","Dm*","E","Gm","Gm","Dm*","E","Am","G#","C","D","Am","G#","C", "D"];
 
-~bbMajPentBase = [66, 70, 72, 74, 77, 79];
+~bbMajPentBase = [66, 70, 72, 74, 77, 79].scramble;
 ~bbMajPent = Array.new();
-(0..6).do{|i|
-	~bbMajPent = ~bbMajPent.addAll(~bbMajPentBase.scramble);
-}
-
+(0..40).do{
+	~bbMajPent = ~bbMajPent.add(~bbMajPentBase.choose);
+};
 
 
 /***********************************
@@ -422,7 +421,7 @@ Pbind(
 
 Pbind(
     \instrument, \default,
-	\midinote, Pseq([Rest(2), Rest(4)]++(~bbMajPent.scramble), 6),
+	\midinote, Pseq([Rest(2), Rest(4)]++(~bbMajPent), 1),
     \dur, 1,
     \amp, 0.6
 ).play;
