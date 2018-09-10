@@ -1,5 +1,7 @@
 (
 
+s.boot;
+
 /*******************************************************************************************
 *   Start Markov Model
 *******************************************************************************************/
@@ -50,7 +52,13 @@
 
 ~chordList = ["Cm","D#","F","D#","Gm","Bb","A#sus4","A7sus4","Gm","Bb","A#sus4","A7sus4","Gm","Bb","A#sus4","A7sus4","Cm","D#","F","D#","Gm","Bb","A#sus4","A7sus4","Gm","Bb","A#sus4","A7sus4","Cm","D#","F","D#","Gm","Bb","A#sus4","A7sus4","Gm","Bb","A#sus4","A7sus4","Gm","Dm*","E","Gm","Gm","Dm*","E","Gm","Dm*","E","Gm","Gm","Dm*","E","Am","G#","C","D","Am","G#","C", "D"];
 
-~bbMajPent = [66, 70, 72, 74, 77, 79].scramble;
+~bbMajPentBase = [66, 70, 72, 74, 77, 79];
+~bbMajPent = Array.new();
+(0..6).do{|i|
+	~bbMajPent = ~bbMajPent.addAll(~bbMajPentBase.scramble);
+}
+
+
 
 /***********************************
 *   End Chord Input
@@ -73,11 +81,10 @@
 	getAvailableBassnotes: {|self|
 		var bnl = Array.new;
 		self.entries.do{|n,i|
-			//add twice so that the note is picked twice.
-			bnl = bnl.add(n.bassNote);
 			bnl = bnl.add(n.bassNote);
 		};
-		bnl;
+		//add twice so that the note is picked twice.
+		bnl = bnl.stutter(2);
 	},
 	findEntry: {|self, chord|
 		var occurrences = -1;
@@ -396,7 +403,7 @@ Pbind(
     \instrument, \bass,
 	\midinote, Pseq(~highNotes1, 1),
     \dur, 2,
-    \amp, 0.3
+    \amp, 0.5
 ).play;
 
 Pbind(
@@ -415,7 +422,7 @@ Pbind(
 
 Pbind(
     \instrument, \default,
-	\midinote, Pseq(~bbMajPent.scramble, 7),
+	\midinote, Pseq([Rest(2), Rest(4)]++(~bbMajPent.scramble), 6),
     \dur, 1,
     \amp, 0.6
 ).play;
